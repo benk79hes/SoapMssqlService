@@ -1,8 +1,19 @@
 const soap = require('soap');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { get } = require('https');
 const sqlite3 = require('sqlite3').verbose();
 
+
+function getTransferResponse(row, amount) {
+  let quota = amount * 10;
+  return {
+    uid: row.uid,
+    username: row.username,
+    cardId: row.cardId,
+    quota: quota
+  };
+}
 let db = new sqlite3.Database('db.sqlite', (err) => {
     if (err) {
     return console.error(err.message);
@@ -16,14 +27,43 @@ const service = {
       transferAmountByUsername: function(args) {
         const username = args.username;
         const amount = args.amount;
+
+        return new Promise((resolve, reject) => {
+            const sql = "SELECT * FROM users WHERE username = ?";
+            db.get(sql, [username], function(err, row) {
+              if (err) {
+                console.error(err.message);
+                // Rejetez la promesse avec une erreur
+                reject(err);
+              } else {
+                console.log("Utilisateur trouvé avec succès");
+
+                resolve(getTransferResponse(row, amount));
+              }
+            });
+          });
         // Implémentez la logique pour transférer le montant et retourner le quota avec uid
-        return { quota: 0 };
       },
       transferAmountByUid: function(args) {
         const uid = args.uid;
         const amount = args.amount;
+
+        return new Promise((resolve, reject) => {
+            const sql = "SELECT * FROM users WHERE uid = ?";
+            db.get(sql, [uid], function(err, row) {
+              if (err) {
+                console.error(err.message);
+                // Rejetez la promesse avec une erreur
+                reject(err);
+              } else {
+                console.log("Utilisateur trouvé avec succès");
+
+                resolve(getTransferResponse(row, amount));
+              }
+            });
+          });
         // Implémentez la logique pour transférer le montant et retourner le quota avec uid
-        return { quota: 0 };
+        // return { quota: 0 };
       },
       createUser: function(args, callback) {
         console.log("createUser called");
