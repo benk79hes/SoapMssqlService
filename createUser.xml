@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+         <createUser>
+            <uid>4</uid>
+            <username>herrr</username>
+            <cardId>123</cardId>
+         </createUser>
+   </soapenv:Body>
+</soapenv:Envelope>

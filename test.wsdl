@@ -1,0 +1,53 @@
+<definitions name = "HelloService"
+   targetNamespace = "http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns = "http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap = "http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns = "http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+ 
+   <message name = "createUserRequest">
+      <part name = "uid" type = "xsd:int"/>
+      <part name = "username" type = "xsd:string"/>
+      <part name = "cardId" type = "xsd:int"/>
+   </message>
+	
+   <message name = "createUserResponse">
+      <part name = "greeting" type = "xsd:string"/>
+   </message>
+
+   <portType name = "UserServicePortType">
+      <operation name = "createUser">
+         <input message = "tns:createUserRequest"/>
+         <output message = "tns:createUserResponse"/>
+      </operation>
+   </portType>
+
+   <binding name = "Hello_Binding" type = "tns:Hello_PortType">
+      <soap:binding style = "rpc"
+         transport = "http://schemas.xmlsoap.org/soap/http"/>
+      <operation name = "sayHello">
+         <soap:operation soapAction = "sayHello"/>
+         <input>
+            <soap:body
+               encodingStyle = "http://schemas.xmlsoap.org/soap/encoding/"
+               namespace = "urn:examples:helloservice"
+               use = "encoded"/>
+         </input>
+		
+         <output>
+            <soap:body
+               encodingStyle = "http://schemas.xmlsoap.org/soap/encoding/"
+               namespace = "urn:examples:helloservice"
+               use = "encoded"/>
+         </output>
+      </operation>
+   </binding>
+
+   <service name = "UserService">
+      <!-- <documentation>WSDL File for HelloService</documentation> -->
+      <port binding = "tns:Hello_Binding" name = "Hello_Port">
+         <soap:address
+            location = "http://www.examples.com/SayHello/" />
+      </port>
+   </service>
+</definitions>

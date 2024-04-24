@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://print-mssql.com/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    targetNamespace="http://print-mssql.com/" 
+    schemaLocation="http://print-mssql.com/createUser">
+
+    <wsdl:types><!-- 
+        <xsd:schema>
+            <xsd:element name="createUser" type="tns:createUserType"/>
+
+            <xsd:complexType name="createUserType">
+                <xsd:sequence>
+                    <xsd:element name="uid" type="xsd:int"/>
+                    <xsd:element name="username" type="xsd:string"/>
+                    <xsd:element name="cardId" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema> -->
+    </wsdl:types>
+
+    <wsdl:message name="transferAmountByUsernameRequest">
+        <wsdl:part name="username" type="xsd:string"/>
+        <wsdl:part name="amount" type="xsd:double"/>
+    </wsdl:message>
+    <wsdl:message name="transferAmountByUidRequest">
+        <wsdl:part name="uid" type="xsd:int"/>
+        <wsdl:part name="amount" type="xsd:double"/>
+    </wsdl:message>
+    <wsdl:message name="transferAmountResponse">
+        <!-- <wsdl:part name="username" type="xsd:string"/>
+        <wsdl:part name="uid" type="xsd:int"/>
+        <wsdl:part name="cardId" type="xsd:int"/> -->
+        <wsdl:part name="quota" type="xsd:int"/>
+    </wsdl:message> <!-- -->
+
+
+    <wsdl:message name="createUserRequest">
+        <!-- <wsdl:part name="parameters" element="tns:createUser"/> -->
+        <wsdl:part name="username" type="xsd:string"/>
+        <wsdl:part name="uid" type="xsd:int"/>
+        <wsdl:part name="cardId" type="xsd:int"/>
+
+    </wsdl:message>
+    <wsdl:message name="createUserResponse">
+        <!-- <wsdl:part name="parameters" element="tns:createUser"/> -->
+        <wsdl:part name="result" type="xsd:string"/>
+    </wsdl:message>
+
+    <wsdl:portType name="UserServicePortType">
+        <wsdl:operation name="transferAmountByUsername">
+            <wsdl:input message="tns:transferAmountByUsernameRequest"/>
+            <wsdl:output message="tns:transferAmountResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="transferAmountByUid">
+            <wsdl:input message="tns:transferAmountByUidRequest"/>
+            <wsdl:output message="tns:transferAmountResponse"/>
+        </wsdl:operation> <!-- -->
+        <wsdl:operation name="createUser">
+            <wsdl:input message="tns:createUserRequest"/>
+            <wsdl:output message="tns:createUserResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="UserServiceBinding" type="tns:UserServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="transferAmountByUsername">
+            <soap:operation soapAction="http://print-mssql.com/transferAmountByUsername"/>
+            <wsdl:input>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <output>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </wsdl:operation>
+        <wsdl:operation name="transferAmountByUid">
+            <soap:operation soapAction="http://print-mssql.com/transferAmountByUid"/>
+            <wsdl:input>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <output>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </wsdl:operation>
+        <wsdl:operation name="createUser">
+            <soap:operation soapAction="http://print-mssql.com/createUser"/>
+            <wsdl:input>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <output>
+                <soap:body use="encoded" namespace="http://print-mssql.com/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="UserService">
+        <wsdl:port name="UserServicePort" binding="tns:UserServiceBinding">
+            <soap:address location="http://localhost:8080/UserService"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

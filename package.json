@@ -1,0 +1,17 @@
+{
+    "name": "soap-app",
+    "version": "1.0.0",
+    "description": "Une application Node.js utilisant SOAP",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "create-db": "node create-db.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "express": "^4.19.2",
+        "soap": "^0.37.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
+    }
+}
