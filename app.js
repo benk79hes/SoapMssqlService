@@ -36,6 +36,8 @@ const service = {
                 console.error(err.message);
                 // Rejetez la promesse avec une erreur
                 reject(err);
+              } else if(row === undefined) {
+                reject(new Error(`Utilisateur avec username ${username} non trouvé`));
               } else {
                 resolve(getTransferResponse(row, amount));
               }
@@ -54,6 +56,8 @@ const service = {
                 console.error(err.message);
                 // Rejetez la promesse avec une erreur
                 reject(err);
+              } else if(row === undefined) {
+                reject(new Error(`Utilisateur avec uid ${uid} non trouvé`));
               } else {
                 resolve(getTransferResponse(row, amount));
               }
