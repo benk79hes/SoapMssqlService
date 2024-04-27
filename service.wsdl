@@ -30,10 +30,16 @@
         <wsdl:part name="uid" type="xsd:int"/>
         <wsdl:part name="amount" type="xsd:double"/>
     </wsdl:message>
-    <wsdl:message name="transferAmountResponse">
-        <!-- <wsdl:part name="username" type="xsd:string"/>
+    <wsdl:message name="transferAmountByUsernameResponse">
+        <wsdl:part name="username" type="xsd:string"/>
         <wsdl:part name="uid" type="xsd:int"/>
-        <wsdl:part name="cardId" type="xsd:int"/> -->
+        <wsdl:part name="cardId" type="xsd:int"/>
+        <wsdl:part name="quota" type="xsd:int"/>
+    </wsdl:message>
+    <wsdl:message name="transferAmountByUidResponse">
+        <wsdl:part name="username" type="xsd:string"/>
+        <wsdl:part name="uid" type="xsd:int"/>
+        <wsdl:part name="cardId" type="xsd:int"/>
         <wsdl:part name="quota" type="xsd:int"/>
     </wsdl:message> <!-- -->
 
@@ -53,11 +59,11 @@
     <wsdl:portType name="UserServicePortType">
         <wsdl:operation name="transferAmountByUsername">
             <wsdl:input message="tns:transferAmountByUsernameRequest"/>
-            <wsdl:output message="tns:transferAmountResponse"/>
+            <wsdl:output message="tns:transferAmountByUsernameResponse"/>
         </wsdl:operation>
         <wsdl:operation name="transferAmountByUid">
             <wsdl:input message="tns:transferAmountByUidRequest"/>
-            <wsdl:output message="tns:transferAmountResponse"/>
+            <wsdl:output message="tns:transferAmountByUidResponse"/>
         </wsdl:operation> <!-- -->
         <wsdl:operation name="createUser">
             <wsdl:input message="tns:createUserRequest"/>

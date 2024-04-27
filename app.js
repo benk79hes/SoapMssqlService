@@ -1,12 +1,11 @@
 const soap = require('soap');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { get } = require('https');
 const sqlite3 = require('sqlite3').verbose();
 
 
 function getTransferResponse(row, amount) {
-  let quota = amount * 10;
+  let quota = Math.floor(amount * 10);
   return {
     uid: row.uid,
     username: row.username,
