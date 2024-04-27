@@ -6,6 +6,8 @@ const sqlite3 = require('sqlite3').verbose();
 
 function getTransferResponse(row, amount) {
   let quota = Math.floor(amount * 10);
+
+  console.log(`Transfert de ${amount}CHF pour ${row.username} (uid: ${row.uid})`);
   return {
     uid: row.uid,
     username: row.username,
@@ -17,7 +19,7 @@ let db = new sqlite3.Database('db.sqlite', (err) => {
     if (err) {
     return console.error(err.message);
   }
-  console.log('Connecté à la base de données SQLite en mémoire.');
+  console.log('Connecté à la base de données SQLite, fichier db.sqlite');
 });
 
 const service = {
@@ -35,8 +37,6 @@ const service = {
                 // Rejetez la promesse avec une erreur
                 reject(err);
               } else {
-                console.log("Utilisateur trouvé avec succès");
-
                 resolve(getTransferResponse(row, amount));
               }
             });
@@ -55,8 +55,6 @@ const service = {
                 // Rejetez la promesse avec une erreur
                 reject(err);
               } else {
-                console.log("Utilisateur trouvé avec succès");
-
                 resolve(getTransferResponse(row, amount));
               }
             });
@@ -78,8 +76,7 @@ const service = {
                 // Rejetez la promesse avec une erreur
                 reject({ result: "Error" });
               } else {
-                console.log("Utilisateur créé avec succès");
-                // Résolvez la promesse avec le résultat
+                console.log(`Utilisateur créé: ${username} (uid: ${uid}, cardId: ${cardId})`);
                 resolve({ result: "Success" });
               }
             });
@@ -95,17 +92,9 @@ const app = express();
 
 
 app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
-// app.use(bodyParser.text({type: function(){return true;}, limit: '5mb'}));
 
-
-/* app.use(function(req, res, next) {
-    // console.log('Request:', req.headers);
-    console.log('Body:', req.body);
-    res.send('')
-  next();
-}); */
 app.listen(process.env.PORT || 8080, function(){
   soap.listen(app, '/wsdl', service, xml, function(){
-    console.log('server initialized with');
+    console.log('server listening on port 8080');
   });
 });
